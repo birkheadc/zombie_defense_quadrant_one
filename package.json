@@ -1,0 +1,32 @@
+{
+  "name": "zombie_defense_quadrant_one",
+  "version": "1.0.0",
+  "description": "Game created for April Fool's Day Jam 2023",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "webpack-dev-server .",
+    "build": "webpack ."
+  },
+  "author": "Colby Birkhead",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/cli": "^7.21.0",
+    "@babel/core": "^7.21.3",
+    "@babel/preset-env": "^7.20.2",
+    "@babel/preset-typescript": "^7.21.0",
+    "@types/node": "^18.15.3",
+    "babel-loader": "^9.1.2",
+    "css-loader": "^6.7.3",
+    "html-webpack-plugin": "^5.5.0",
+    "node-polyfill-webpack-plugin": "^2.0.1",
+    "style-loader": "^3.3.2",
+    "typescript": "^5.0.2",
+    "webpack": "^5.76.2",
+    "webpack-cli": "^5.0.1",
+    "webpack-dev-server": "^4.13.1"
+  },
+  "dependencies": {
+    "phaser": "^3.55.2"
+  }
+}
