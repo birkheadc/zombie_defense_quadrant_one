@@ -61,6 +61,5 @@ export class SoundButton extends Physics.Arcade.Sprite {
 }
 
 export default {
-  SoundButton,
   preload
 }
