@@ -1,5 +1,5 @@
 import { Physics } from 'phaser';
-import TowerDefenseZombieSprite from '../../../../assets/sprites/mobs/towerDefenseZombie/tower_defense_zombie.png';
+import TowerDefenseZombieSprite from '../../../../assets/sprites/towerDefenseScene/mobs/towerDefenseZombie/tower_defense_zombie.png'
 
 const SPRITE_ID = 'zombie_sprite';
 const FRAME_SIZE = { frameWidth: 8, frameHeight: 32 };
@@ -13,10 +13,11 @@ export class TowerDefenseZombie extends Physics.Arcade.Sprite {
 
   health: number = 100;
 
-  constructor(scene: Phaser.Scene, private spawnLocation: { x: number, y: number }, private destination: { x: number, y: number } ) {
+  constructor(scene: Phaser.Scene, private spawnLocation: { x: number, y: number }, private destination: { x: number, y: number }, group: Phaser.GameObjects.Group | null ) {
     super(scene, spawnLocation.x, spawnLocation.y, SPRITE_ID);
     this.scene.add.existing(this);
     this.scene.physics.add.existing(this);
+    group?.add(this);
     this.declareAnims();
     this.beginBehaviour();
   }

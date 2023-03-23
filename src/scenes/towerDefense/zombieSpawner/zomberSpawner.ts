@@ -1,3 +1,4 @@
+import { TowerDefenseDog } from "../sprites/dog/towerDefenseDog";
 import { TowerDefenseZombie } from "../sprites/zombie/towerDefenseZombie";
 
 interface IRange { topLeft: { x: number, y: number }, bottomRight: { x: number, y: number } };
@@ -6,11 +7,12 @@ export default class ZombieSpawner {
   constructor(
     private scene: Phaser.Scene,
     private spawnRange: IRange,
-    private destinationRange: IRange
+    private destinationRange: IRange,
+    private zombieGroup: Phaser.GameObjects.Group | null
   ) { }
 
   spawnZombie() {
-    new TowerDefenseZombie(this.scene, this.getRandomSpawnLocation(), this.getRandomDestination())
+    new TowerDefenseZombie(this.scene, this.getRandomSpawnLocation(), this.getRandomDestination(), this.zombieGroup)
   }
 
   getRandomSpawnLocation(): { x: number, y: number } {
@@ -28,7 +30,6 @@ export default class ZombieSpawner {
   }
 
   spawnDog() {
-    // Todo
-    console.log('spawn dog');
+    new TowerDefenseDog(this.scene, this.getRandomSpawnLocation(), this.zombieGroup);
   }
 }

@@ -1,5 +1,5 @@
 import { Physics } from 'phaser';
-import TowerSprite from '../../../../assets/sprites/zombieDefenseScene/tower/tower.png';
+import TowerSprite from '../../../../assets/sprites/towerDefenseScene/tower/tower.png';
 import { Bullet } from '../bullet/bullet';
 
 const SPRITE_ID = 'tower_sprite';
@@ -11,13 +11,13 @@ function preload(scene: Phaser.Scene) {
 
 export class Tower extends Physics.Arcade.Sprite {
   
-  constructor(scene: Phaser.Scene, private spawnLocation: { x: number, y: number }) {
+  constructor(scene: Phaser.Scene, private spawnLocation: { x: number, y: number }, private bulletGroup: Phaser.GameObjects.Group | null) {
     super(scene, spawnLocation.x, spawnLocation.y, SPRITE_ID);
     this.scene.add.existing(this);
   }
 
   fireTowards(location: { x: number, y: number }) {
-    new Bullet(this.scene, this.spawnLocation, location);
+    new Bullet(this.scene, this.spawnLocation, location, this.bulletGroup);
   }
 }
 
