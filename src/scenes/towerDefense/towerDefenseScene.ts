@@ -1,12 +1,17 @@
+import GameState from "../../gameState/gameState";
 import sounds from "./sounds";
 import sprites from "./sprites";
 import { Bullet } from "./sprites/bullet/bullet";
 import { TowerDefenseDog } from "./sprites/dog/towerDefenseDog";
+import { Reticle } from "./sprites/reticle/reticle";
 import { Tower } from "./sprites/tower/tower";
+import { Wall } from "./sprites/wall/wall";
 import { TowerDefenseZombie } from "./sprites/zombie/towerDefenseZombie";
 import ZombieSpawner from "./zombieSpawner/zomberSpawner";
 
 export default class TowerDefenseScene extends Phaser.Scene {
+
+  gameState: GameState | undefined;
 
   DELAY_UNTIL_DOG = 500;
   ZOMBIE_SPAWN_RATE = 1000;
@@ -22,6 +27,9 @@ export default class TowerDefenseScene extends Phaser.Scene {
 
   zombieGroup: Phaser.GameObjects.Group | null = null;
   bulletGroup: Phaser.GameObjects.Group | null = null;
+  wallGroup: Phaser.GameObjects.Group | null = null;
+
+  reticle: Reticle | undefined = undefined;
 
   constructor() {
     super("TowerDefenseScene");
@@ -49,24 +57,49 @@ export default class TowerDefenseScene extends Phaser.Scene {
     return new ZombieSpawner(this, spawnRange, destination, this.zombieGroup);
   }
 
+  init(data: { gameState: GameState}) {
+    this.gameState = data.gameState;
+  }
+
   preload() {
     sprites.preload(this);
     sounds.preload(this);
   }
 
   create() {
+    this.spawnDogDelta = 0;
+    this.spawnZombieDelta = 0;
+    this.dogSpawned = false;
+
     this.generateBackground();
+    this.generateReticle();
+
+    sounds.stopAll(this);
     sounds.playBgm(this);
 
     this.zombieGroup = this.add.group();
     this.bulletGroup = this.add.group();
+    this.wallGroup = this.add.group();
 
     this.physics.add.overlap(this.bulletGroup, this.zombieGroup, this.handleBulletCollide);
+    this.physics.add.overlap(this.zombieGroup, this.wallGroup, this.handleWallCollide);
 
     this.zombieSpawner = this.buildZombieSpawner();
     this.isSpawnZombie = true;
     this.spawnTower();
     this.input.on('pointerdown', this.handleFire)
+
+    this.spawnWall();
+  }
+
+  generateReticle() {
+    this.reticle = new Reticle(this, { x: this.cameras.main.width / 2, y: this.cameras.main.height / 2});
+    this.input.on('pointermove', (event: PointerEvent) => {
+      this.reticle?.moveTo({
+        x: event.x,
+        y: event.y
+      });
+    });
   }
 
   handleFire = (event: PointerEvent) => {
@@ -80,7 +113,21 @@ export default class TowerDefenseScene extends Phaser.Scene {
         return;
       }
       if (object2 instanceof TowerDefenseDog) {
+        object1.destroy();
         this.shootDog();
+      }
+    }
+  }
+
+  handleWallCollide = (object1: Phaser.GameObjects.GameObject, object2: Phaser.GameObjects.GameObject) => {
+    if (object2 instanceof Wall) {
+      if (object1 instanceof TowerDefenseZombie) {
+        this.lose();
+        return;
+      }
+      if (object1 instanceof TowerDefenseDog) {
+        object1.destroy();
+        this.saveDog();
       }
     }
   }
@@ -109,15 +156,59 @@ export default class TowerDefenseScene extends Phaser.Scene {
     }, this.bulletGroup);
   }
 
+  spawnWall() {
+    new Wall(
+      this, {
+      x: this.cameras.main.width * 0.2,
+      y: this.cameras.main.height * 0.5,
+      },
+      this.wallGroup
+    )
+  }
+
   generateBackground() {
     this.cameras.main.setBackgroundColor('rgba(100, 50, 0, 1.0)');
   }
 
-  shootDog() {
-    console.log('oh no you shot a dog');
+  shootDog = () => {
+    sounds.stopAll(this);
+    if (this.gameState == null) return;
+    if (this.gameState.didSaveDog && this.gameState.didShootDog) {
+      this.scene.start('CutsceneScene', { gameSta: this.gameState, cutsceneId: 'end', nextScene: 'none' }, );
+    } else {
+      this.gameState.didShootDog = true;
+      this.scene.start('CutsceneScene', { gameState: this.gameState, cutsceneId: 'shoot_dog', nextScene: 'BarScene'} );
+    }
   }
 
-  update(time: any, delta: number) {
+  saveDog() {
+    sounds.stopAll(this);
+    if (this.gameState == null) return;
+    if (this.gameState.didSaveDog && this.gameState.didShootDog) {
+      this.scene.start('CutsceneScene', { gameState: this.gameState, cutsceneId: 'end', nextScene: 'none' } );
+    } else {
+      this.gameState.didSaveDog = true;
+      this.scene.start('CutsceneScene', { gameState: this.gameState, cutsceneId: 'save_dog', nextScene: 'BarScene'} );
+    }
+  }
+
+  lose() {
+    this.zombieGroup?.setAlpha(0);
+    this.cameras.main.flash(500, 200, 0, 0, false, (_: any, progress: number) => {
+      if (progress >= 0.8) {
+        this.reset();
+      }
+    });
+  }
+
+  reset() {
+    this.spawnDogDelta = 0;
+    this.spawnZombieDelta = 0;
+    this.dogSpawned = false;
+    this.scene.start('TowerDefenseScene', { gameState: this.gameState });
+  }
+
+  update(_: any, delta: number) {
     this.spawnZombie(delta);
     this.spawnDog(delta);
   }

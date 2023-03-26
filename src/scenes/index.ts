@@ -1,9 +1,15 @@
-import OverlayScene from "./overlay/overlay_scene";
-import MainMenuScene from "./mainMenu/main_menu_scene";
+import OverlayScene from "./overlay/overlayScene";
+import MainMenuScene from "./mainMenu/mainMenuScene";
 import TowerDefenseScene from "./towerDefense/towerDefenseScene";
+import CutsceneScene from "./cutscene/cutsceneScene";
+import BarScene from "./barScene/barScene";
+import WalkScene from "./walkScene/walkScene";
 
 export default [
   OverlayScene,
   MainMenuScene,
-  TowerDefenseScene
+  TowerDefenseScene,
+  CutsceneScene,
+  BarScene,
+  WalkScene
 ]

@@ -31,7 +31,6 @@ export default class OverlayScene extends Phaser.Scene {
 
     this.isSoundOn = !this.isSoundOn;
     this.sound.mute = !this.isSoundOn;
-    console.log('Sound is now: ', this.isSoundOn);
     this.soundButton.setSound(this.isSoundOn);
   }
 }

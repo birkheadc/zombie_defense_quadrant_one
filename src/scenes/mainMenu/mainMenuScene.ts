@@ -1,3 +1,4 @@
+import GameState from "../../gameState/gameState";
 import sprites from "./sprites";
 import { PlayButton } from "./sprites/playButton/playButton";
 
@@ -16,7 +17,7 @@ export default class MainMenuScene extends Phaser.Scene {
   }
   
   generateBackground() {
-    this.cameras.main.setBackgroundColor('rgba(0, 50, 100, 1.0)');
+    this.cameras.main.setBackgroundColor('rgba(100, 100, 100, 1.0)');
   }
 
   getScreenCenter(): { x: number, y: number} {
@@ -32,6 +33,11 @@ export default class MainMenuScene extends Phaser.Scene {
   }
 
   startGame = () => {
-    this.scene.start('TowerDefenseScene');
+    const startState: GameState = {
+      didShootDog: true,
+      didSaveDog: false,
+      isDogKiller: false
+    };
+    this.scene.start('WalkScene', { gameState: startState });
   }
 }

@@ -22,11 +22,9 @@ export class PlayButton extends Physics.Arcade.Sprite {
   }
 
   handlePointerDown = () => {
-    console.log('down');
   }
 
   handlePointerUp = () => {
-    console.log('up');
     this.onclick();
   }
 }

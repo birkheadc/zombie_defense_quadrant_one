@@ -1,7 +1,7 @@
-import towerDefenseSceneBgm from "./bgm/towerDefenseSceneBgm"
+import walkSceneBgm from "./bgm/walkSceneBgm";
 
 function preload(scene: Phaser.Scene) {
-  towerDefenseSceneBgm.preload(scene);
+  walkSceneBgm.preload(scene);
 }
 
 function stopAll(scene: Phaser.Scene) {
@@ -9,11 +9,11 @@ function stopAll(scene: Phaser.Scene) {
 }
 
 function playBgm(scene: Phaser.Scene) {
-  towerDefenseSceneBgm.play(scene);
+  walkSceneBgm.play(scene);
 }
 
 export default {
   preload,
-  playBgm,
-  stopAll
+  stopAll,
+  playBgm
 }
