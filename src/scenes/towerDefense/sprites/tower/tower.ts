@@ -11,7 +11,7 @@ function preload(scene: Phaser.Scene) {
 
 export class Tower extends Physics.Arcade.Sprite {
   
-  constructor(scene: Phaser.Scene, private spawnLocation: { x: number, y: number }, private bulletGroup: Phaser.GameObjects.Group | null) {
+  constructor(scene: Phaser.Scene, private spawnLocation: { x: number, y: number }, private bulletGroup: Phaser.GameObjects.Group | undefined) {
     super(scene, spawnLocation.x, spawnLocation.y, SPRITE_ID);
     this.scene.add.existing(this);
   }

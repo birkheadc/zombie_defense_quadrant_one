@@ -12,10 +12,11 @@ function preload(scene: Phaser.Scene) {
 }
 
 export class Bullet extends Physics.Arcade.Sprite {
-  constructor(scene: Phaser.Scene, private spawnLocation: { x: number, y: number }, private destination: { x: number, y: number }, group: Phaser.GameObjects.Group | null) {
+  constructor(scene: Phaser.Scene, private spawnLocation: { x: number, y: number }, private destination: { x: number, y: number }, group: Phaser.GameObjects.Group | undefined) {
     super(scene, spawnLocation.x, spawnLocation.y, SPRITE_ID);
     this.scene.add.existing(this);
     this.scene.physics.add.existing(this);
+    this.setScale(0.5);
     group?.add(this);
     this.moveTowardsDestination();
   }

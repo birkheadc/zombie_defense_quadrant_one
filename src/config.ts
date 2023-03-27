@@ -4,6 +4,9 @@ import scenes from "./scenes";
 const config: Phaser.Types.Core.GameConfig = {
   title: 'Zombie Defense Quadrant One',
   type: Phaser.AUTO,
+  audio: {
+    disableWebAudio: false
+  },
   parent: 'game',
   backgroundColor: '#363636',
   scale: {

@@ -24,6 +24,7 @@ export class SadMan extends Physics.Arcade.Sprite {
     super(scene, spawnLocation.x, spawnLocation.y, SPRITE_ID);
     scene.add.existing(this);
     scene.physics.add.existing(this);
+    this.setScale(0.7);
     this.setCollideWorldBounds(true);
     this.setInteractive({ cursor: 'none' });
     this.declareAnims();

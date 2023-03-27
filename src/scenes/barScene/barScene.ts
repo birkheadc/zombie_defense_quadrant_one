@@ -17,7 +17,7 @@ export default class BarScene extends Phaser.Scene {
   drankCups: number = 0;
 
   MAX_DROPPED_CUPS = 5;
-  MAX_DRANK_CUPS = 5;
+  MAX_DRANK_CUPS = 10;
 
   hand: Hand | undefined = undefined;
   handGroup: Phaser.GameObjects.Group | undefined = undefined;
@@ -28,7 +28,7 @@ export default class BarScene extends Phaser.Scene {
   drinkerGroup: Phaser.GameObjects.Group | undefined = undefined;
 
   spawnCupDelta: number = 0;
-  CUP_SPAWN_RATE = 1000;
+  CUP_SPAWN_RATE = 700;
 
   cupSpawner : CupSpawner | undefined = undefined;
   cupGroup: Phaser.GameObjects.Group | undefined = undefined;
@@ -41,6 +41,10 @@ export default class BarScene extends Phaser.Scene {
   
   droppedCupsBar: ProgressBar | undefined = undefined;
   drankCupsBar: ProgressBar | undefined = undefined;
+
+  deltaCameraWobble: number = 0;
+  CAMERA_WOBBLE_RATE = 200;
+  CAMERA_WOBBLE_BASE_STRENGTH = 5;
 
   constructor() {
     super('BarScene');
@@ -59,6 +63,7 @@ export default class BarScene extends Phaser.Scene {
     this.spawnCupDelta = 0;
     this.droppedCups = 0;
     this.drankCups = 0;
+    this.deltaCameraWobble = 0;
 
     this.cupGroup = this.add.group();
     this.edgeOfTableGroup = this.add.group();
@@ -195,6 +200,21 @@ export default class BarScene extends Phaser.Scene {
   update(_: any, delta: number) {
     this.spawnCup(delta);
     this.cupSpawner?.update(delta);
+    this.wobbleCamera(delta);
+  }
+
+  wobbleCamera(delta: number) {
+    this.deltaCameraWobble += delta;
+    if (this.deltaCameraWobble >= this.CAMERA_WOBBLE_RATE) {
+      this.deltaCameraWobble -= this.CAMERA_WOBBLE_RATE;
+      const max = { x: (this.cameras.main.width / 2) + (this.drankCups * this.CAMERA_WOBBLE_BASE_STRENGTH), y: (this.cameras.main.height / 2) + (this.drankCups * this.CAMERA_WOBBLE_BASE_STRENGTH) };
+      const min = { x: (this.cameras.main.width / 2) - (this.drankCups * this.CAMERA_WOBBLE_BASE_STRENGTH), y: (this.cameras.main.height / 2) - (this.drankCups * this.CAMERA_WOBBLE_BASE_STRENGTH) };
+      const destination = {
+        x: Math.random() * (max.x - min.x) + min.x,
+        y: Math.random() * (max.y - min.y) + min.y
+      };
+      this.cameras.main.pan(destination.x, destination.y, this.CAMERA_WOBBLE_RATE, 'Linear', true);
+    }
   }
 
   spawnCup(delta: number) {

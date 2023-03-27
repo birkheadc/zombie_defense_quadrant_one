@@ -1,21 +1,39 @@
 import { Physics } from 'phaser';
 import AngryManSprite from '../../../../assets/sprites/walkScene/angryMan/angry_man.png';
+import bullet from '../../../towerDefense/sprites/bullet/bullet';
+import { Bullet } from '../../../towerDefense/sprites/bullet/bullet';
 import { AngryMessage } from '../angryMessage/angryMessage';
+import { SadMan } from '../sadMan/sadMan';
 
 const SPRITE_ID = 'angry_man_sprite';
 const FRAME_SIZE = { frameWidth: 64, frameHeight: 64 };
 
+const BULLET_RATE_RANGE = { MIN: 2000, MAX: 5000 };
+
 function preload(scene: Phaser.Scene) {
   scene.load.spritesheet(SPRITE_ID, AngryManSprite, FRAME_SIZE);
+  bullet.preload(scene);
 }
 
 export class AngryMan extends Physics.Arcade.Sprite {
-  constructor(scene: Phaser.Scene, private spawnLocation: { x: number, y: number}, private scrollSpeed: number, group: Phaser.GameObjects.Group | undefined, private isDogKiller: boolean) {
+
+  deltaBullet: number = 0;
+  nextBulletTime: number = 0;
+
+  constructor(scene: Phaser.Scene,
+    private spawnLocation: { x: number, y: number},
+    private scrollSpeed: number,
+    private group: Phaser.GameObjects.Group | undefined,
+    private isDogKiller: boolean,
+    private player: Physics.Arcade.Sprite | undefined
+    ) {
     super(scene, spawnLocation.x, spawnLocation.y, SPRITE_ID);
     scene.add.existing(this);
     scene.physics.add.existing(this);
+    this.setScale(0.8);
     group?.add(this);
     this.declareAnims();
+    this.setNextBulletRandomTime();
     this.beginBehavior();
     this.createMessage();
   }
@@ -39,8 +57,24 @@ export class AngryMan extends Physics.Arcade.Sprite {
     new AngryMessage(this.scene, location, this.isDogKiller, this.scrollSpeed);
   }
 
-  update(delta: number) {
+  setNextBulletRandomTime() {
+    const random = Math.random() * (BULLET_RATE_RANGE.MAX - BULLET_RATE_RANGE.MIN) + BULLET_RATE_RANGE.MIN;
+    this.nextBulletTime = random;
+  }
 
+  throwBullet(delta: number) {
+    if (this.x < 0) return;
+    this.deltaBullet += delta;
+    if (this.deltaBullet >= this.nextBulletTime) {
+      const destination = this.player == null ? { x: 0, y: 0 } : { x: this.player.x, y: this.player.y };
+      new Bullet(this.scene, { x: this.x, y: this.y }, destination, this.group)
+      this.deltaBullet -= this.nextBulletTime;
+      this.setNextBulletRandomTime();
+    }
+  }
+
+  update(delta: number) {
+    this.throwBullet(delta);
   }
 }
 

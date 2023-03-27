@@ -34,10 +34,10 @@ export default class MainMenuScene extends Phaser.Scene {
 
   startGame = () => {
     const startState: GameState = {
-      didShootDog: true,
+      didShootDog: false,
       didSaveDog: false,
       isDogKiller: false
     };
-    this.scene.start('WalkScene', { gameState: startState });
+    this.scene.start('TowerDefenseScene', { gameState: startState });
   }
 }

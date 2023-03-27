@@ -7,7 +7,10 @@ function preload(scene: Phaser.Scene) {
 }
 
 function play(scene: Phaser.Scene) {
-  scene.sound.play(AUDIO_ID);
+  const config: Phaser.Types.Sound.SoundConfig = {
+    seek: 9
+  };
+  scene.sound.play(AUDIO_ID, config);
 }
 
 export default {

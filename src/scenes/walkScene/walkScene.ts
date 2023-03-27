@@ -36,8 +36,8 @@ export default class WalkScene extends Phaser.Scene {
   progressPoints: number = 0;
   deltaProgressPoints: number = 0;
 
-  PROGRESS_POINTS_PER_SECOND = 10;
-  PROGRESS_POINTS_TO_WIN = 30;
+  PROGRESS_POINTS_PER_SECOND = 100;
+  PROGRESS_POINTS_TO_WIN = 3000;
 
   mobSpawner: MobSpawner | undefined = undefined;
   mobGroup: Phaser.GameObjects.Group | undefined = undefined;
@@ -50,7 +50,6 @@ export default class WalkScene extends Phaser.Scene {
 
   init(data: { gameState: GameState}) {
     this.gameState = data.gameState;
-    console.log('GameState: ', this.gameState);
   }
 
   preload() {
@@ -59,6 +58,10 @@ export default class WalkScene extends Phaser.Scene {
   }
 
   create() {
+    this.progressPoints = 0;
+    this.deltaProgressPoints = 0;
+    sounds.stopAll(this);
+    
     this.PLAY_RANGE = { topLeft: { x: 0, y: 96}, bottomRight: { x: this.cameras.main.width, y: this.cameras.main.height} };
 
     this.buildingsGroup = this.add.group();
@@ -71,6 +74,8 @@ export default class WalkScene extends Phaser.Scene {
     this.generatePlayer();
     this.generateProgressBar();
     this.startSpawningMobs();
+
+    this.physics.add.overlap(this.mobGroup, this.playerGroup, this.handleMobOverlapPlayer);
   }
 
   generateBackground() {
@@ -109,7 +114,7 @@ export default class WalkScene extends Phaser.Scene {
         y: (this.PLAY_RANGE?.bottomRight.y ?? this.cameras.main.height) - 16
       }
     }
-    this.mobSpawner = new MobSpawner(this, spawnRange, SCROLL_SPEED, this.mobGroup);
+    this.mobSpawner = new MobSpawner(this, spawnRange, SCROLL_SPEED, this.mobGroup, this.gameState?.isDogKiller ?? false, this.player);
     this.mobSpawner.beginSpawning(this.MOB_SPAWN_RATE);
   }
 
@@ -131,11 +136,27 @@ export default class WalkScene extends Phaser.Scene {
     this.mobSpawner?.update(delta);
   }
 
-  lose() {
+  handleMobOverlapPlayer = (object1: Phaser.GameObjects.GameObject, object2: Phaser.GameObjects.GameObject) => {
+    if (object2 instanceof SadMan) {
+      this.lose();
+    }
+  }
 
+  lose() {
+    this.mobGroup?.setAlpha(0);
+    this.playerGroup?.setAlpha(0);
+    this.cameras.main.flash(500, 200, 0, 0, false, (_: any, progress: number) => {
+      if (progress >= 0.8) {
+        this.reset();
+      }
+    });
+  }
+
+  reset() {
+    this.scene.start('WalkScene', { gameState: this.gameState });
   }
 
   win() {
-    console.log('you win');
+    this.scene.start('BarScene', { gameState: this.gameState });
   }
 }

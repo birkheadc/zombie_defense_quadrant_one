@@ -1,3 +1,4 @@
+import { Physics } from "phaser";
 import { AngryMan } from "../sprites/angryMan/angryMan";
 import { WalkDog } from "../sprites/dog/walkDog";
 
@@ -25,7 +26,14 @@ export default class MobSpawner {
     dogs: []
   };
 
-  constructor(private scene: Phaser.Scene, private spawnRange: IRange | undefined, private scrollSpeed: number, private mobGroup: Phaser.GameObjects.Group | undefined, private isDogKiller: boolean) {
+  constructor(
+    private scene: Phaser.Scene,
+    private spawnRange: IRange | undefined,
+    private scrollSpeed: number,
+    private mobGroup: Phaser.GameObjects.Group | undefined,
+    private isDogKiller: boolean,
+    private player: Physics.Arcade.Sprite | undefined
+    ) {
     
   }
 
@@ -54,7 +62,7 @@ export default class MobSpawner {
   }
 
   spawnMan() {
-    const man = new AngryMan(this.scene, this.getRandomSpawnLocation(), this.scrollSpeed, this.mobGroup, this.isDogKiller);
+    const man = new AngryMan(this.scene, this.getRandomSpawnLocation(), this.scrollSpeed, this.mobGroup, this.isDogKiller, this.player);
     this.mobs.angryMans.push(man);
   }
 

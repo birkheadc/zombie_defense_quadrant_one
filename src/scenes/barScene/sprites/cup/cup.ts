@@ -3,7 +3,7 @@ import CupSprite from '../../../../assets/sprites/barScene/cup/cup.png';
 
 const SPIRTE_ID = 'cup_sprite';
 const FRAME_SIZE = { frameWidth: 16, frameHeight: 16 };
-const SPEED_RANGE = { MIN: 50, MAX: 150 };
+const SPEED_RANGE = { MIN: 200, MAX: 250 };
 const FALL_SPEED = 200;
 
 function preload(scene: Phaser.Scene) {

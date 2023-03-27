@@ -13,7 +13,7 @@ export default class TowerDefenseScene extends Phaser.Scene {
 
   gameState: GameState | undefined;
 
-  DELAY_UNTIL_DOG = 500;
+  DELAY_UNTIL_DOG = 15000;
   ZOMBIE_SPAWN_RATE = 1000;
 
   zombieSpawner: ZombieSpawner | null = null;
@@ -26,10 +26,14 @@ export default class TowerDefenseScene extends Phaser.Scene {
   tower: Tower | null = null;
 
   zombieGroup: Phaser.GameObjects.Group | null = null;
-  bulletGroup: Phaser.GameObjects.Group | null = null;
+  bulletGroup: Phaser.GameObjects.Group | undefined = undefined;
   wallGroup: Phaser.GameObjects.Group | null = null;
 
   reticle: Reticle | undefined = undefined;
+
+  isFiring: boolean = false;
+  deltaFire: number = 0;
+  FIRE_RATE = 100;
 
   constructor() {
     super("TowerDefenseScene");
@@ -70,6 +74,8 @@ export default class TowerDefenseScene extends Phaser.Scene {
     this.spawnDogDelta = 0;
     this.spawnZombieDelta = 0;
     this.dogSpawned = false;
+    
+    this.deltaFire = this.FIRE_RATE;
 
     this.generateBackground();
     this.generateReticle();
@@ -87,7 +93,8 @@ export default class TowerDefenseScene extends Phaser.Scene {
     this.zombieSpawner = this.buildZombieSpawner();
     this.isSpawnZombie = true;
     this.spawnTower();
-    this.input.on('pointerdown', this.handleFire)
+    this.input.on('pointerdown', this.startFiring)
+    this.input.on('pointerup', this.stopFiring);
 
     this.spawnWall();
   }
@@ -102,8 +109,13 @@ export default class TowerDefenseScene extends Phaser.Scene {
     });
   }
 
-  handleFire = (event: PointerEvent) => {
-    this.tower?.fireTowards({ x: event.x, y: event.y });
+  startFiring = (event: PointerEvent) => {
+    this.isFiring = true;
+  }
+
+  stopFiring = (event: PointerEvent) => {
+    this.isFiring = false;
+    this.deltaFire = this.FIRE_RATE;
   }
 
   handleBulletCollide = (object1: Phaser.GameObjects.GameObject, object2: Phaser.GameObjects.GameObject) => {
@@ -159,7 +171,7 @@ export default class TowerDefenseScene extends Phaser.Scene {
   spawnWall() {
     new Wall(
       this, {
-      x: this.cameras.main.width * 0.2,
+      x: this.cameras.main.width * 0.5,
       y: this.cameras.main.height * 0.5,
       },
       this.wallGroup
@@ -177,7 +189,8 @@ export default class TowerDefenseScene extends Phaser.Scene {
       this.scene.start('CutsceneScene', { gameSta: this.gameState, cutsceneId: 'end', nextScene: 'none' }, );
     } else {
       this.gameState.didShootDog = true;
-      this.scene.start('CutsceneScene', { gameState: this.gameState, cutsceneId: 'shoot_dog', nextScene: 'BarScene'} );
+      this.gameState.isDogKiller = true;
+      this.scene.start('CutsceneScene', { gameState: this.gameState, cutsceneId: 'shoot_dog', nextScene: 'WalkScene'} );
     }
   }
 
@@ -188,7 +201,8 @@ export default class TowerDefenseScene extends Phaser.Scene {
       this.scene.start('CutsceneScene', { gameState: this.gameState, cutsceneId: 'end', nextScene: 'none' } );
     } else {
       this.gameState.didSaveDog = true;
-      this.scene.start('CutsceneScene', { gameState: this.gameState, cutsceneId: 'save_dog', nextScene: 'BarScene'} );
+      this.gameState.isDogKiller = false;
+      this.scene.start('CutsceneScene', { gameState: this.gameState, cutsceneId: 'save_dog', nextScene: 'WalkScene'} );
     }
   }
 
@@ -208,8 +222,18 @@ export default class TowerDefenseScene extends Phaser.Scene {
     this.scene.start('TowerDefenseScene', { gameState: this.gameState });
   }
 
+  fire(delta: number) {
+    if (this.isFiring === false) return;
+    this.deltaFire += delta;
+    if (this.deltaFire >= this.FIRE_RATE) {
+      this.tower?.fireTowards({ x: this.reticle?.x ?? 0, y: this.reticle?.y ?? 0});
+      this.deltaFire -= this.FIRE_RATE;
+    }
+  }
+
   update(_: any, delta: number) {
     this.spawnZombie(delta);
     this.spawnDog(delta);
+    this.fire(delta);
   }
 }

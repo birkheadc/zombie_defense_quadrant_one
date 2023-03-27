@@ -16,6 +16,9 @@ export class AngryMessage extends Physics.Arcade.Sprite {
   constructor(scene: Phaser.Scene, spawnLocation: { x: number, y: number }, private isDogKiller: boolean, private scrollSpeed: number) {
     super(scene, spawnLocation.x, spawnLocation.y, isDogKiller ? DOG_KILLER_SPRITE_ID : BACK_STABBER_SPRITE_ID);
     scene.add.existing(this);
+    scene.physics.add.existing(this);
+    this.setDepth(3);
+    this.setScale(0.5);
     this.declareAnims();
     this.beginBehavior();
   }

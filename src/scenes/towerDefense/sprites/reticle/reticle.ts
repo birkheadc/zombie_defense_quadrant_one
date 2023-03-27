@@ -12,6 +12,7 @@ export class Reticle extends Physics.Arcade.Sprite {
   constructor(scene: Phaser.Scene, spawnLocation: { x: number, y: number }) {
     super(scene, spawnLocation.x, spawnLocation.y, SPRITE_ID);
     scene.add.existing(this);
+    this.setScale(0.5);
     this.setInteractive({ cursor: 'none' });
     this.setDepth(5);
   }
