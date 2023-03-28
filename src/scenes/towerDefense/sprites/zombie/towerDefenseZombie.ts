@@ -2,7 +2,7 @@ import { Physics } from 'phaser';
 import TowerDefenseZombieSprite from '../../../../assets/sprites/towerDefenseScene/mobs/towerDefenseZombie/tower_defense_zombie.png'
 
 const SPRITE_ID = 'zombie_sprite';
-const FRAME_SIZE = { frameWidth: 8, frameHeight: 32 };
+const FRAME_SIZE: Phaser.Types.Loader.FileTypes.ImageFrameConfig = { frameWidth: 16, frameHeight: 32 };
 const SPEED_RANGE = { MIN: 1, MAX: 3 };
 
 function preload(scene: Phaser.Scene) {
@@ -25,7 +25,7 @@ export class TowerDefenseZombie extends Physics.Arcade.Sprite {
   declareAnims() {
     this.anims.create({
       key: 'walk',
-      frames: this.anims.generateFrameNumbers(SPRITE_ID, { frames: [0, 1]}),
+      frames: this.anims.generateFrameNumbers(SPRITE_ID, { frames: [0, 1, 2, 3]}),
       frameRate: 2,
       repeat: -1
     });

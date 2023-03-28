@@ -2,7 +2,7 @@ import { Physics } from 'phaser';
 import WalkDogSprite from '../../../../assets/sprites/towerDefenseScene/mobs/towerDefenseDog/tower_defense_dog.png';
 
 const SPRITE_ID = 'walk_dog_sprite';
-const FRAME_SIZE = { frameWidth: 32, frameHeight: 8 };
+const FRAME_SIZE = { frameWidth: 48, frameHeight: 48 };
 const SPEED_X = 100;
 const SPEED_Y = 50;
 
@@ -19,7 +19,7 @@ export class WalkDog extends Physics.Arcade.Sprite {
     this.scene.add.existing(this);
     this.scene.physics.add.existing(this);
     group?.add(this);
-    this.setScale(2);
+    this.setScale(1);
     this.declareAnims();
     this.beginBehavior();
   }
@@ -27,8 +27,8 @@ export class WalkDog extends Physics.Arcade.Sprite {
   declareAnims() {
     this.anims.create({
       key: 'walk',
-      frames: this.anims.generateFrameNumbers(SPRITE_ID, { frames: [0, 1]}),
-      frameRate: 3,
+      frames: this.anims.generateFrameNumbers(SPRITE_ID, { frames: [0, 1, 2, 3, 4, 5]}),
+      frameRate: 6,
       repeat: -1
     });
   }

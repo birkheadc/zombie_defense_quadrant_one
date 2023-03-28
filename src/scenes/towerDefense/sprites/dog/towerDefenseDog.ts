@@ -2,7 +2,7 @@ import { Physics } from 'phaser';
 import TowerDefenseDogSprite from '../../../../assets/sprites/towerDefenseScene/mobs/towerDefenseDog/tower_defense_dog.png';
 
 const SPRITE_ID = 'tower_defense_dog_sprite';
-const FRAME_SIZE = { frameWidth: 32, frameHeight: 8 };
+const FRAME_SIZE = { frameWidth: 48, frameHeight: 48 };
 const SPEED = 5;
 
 function preload(scene: Phaser.Scene) {
@@ -22,7 +22,7 @@ export class TowerDefenseDog extends Physics.Arcade.Sprite {
   declareAnims() {
     this.anims.create({
       key: 'walk',
-      frames: this.anims.generateFrameNumbers(SPRITE_ID, { frames: [0, 1]}),
+      frames: this.anims.generateFrameNumbers(SPRITE_ID, { frames: [0, 1, 2, 3, 4, 5]}),
       frameRate: 3,
       repeat: -1
     });

@@ -22,7 +22,7 @@ export default class OverlayScene extends Phaser.Scene {
   }
 
   generateSoundButton() {
-    const soundButton = new SoundButton(this, 32, 32, this.toggleSound);
+    const soundButton = new SoundButton(this, 20, 20, this.toggleSound);
     this.soundButton = soundButton;
   }
 

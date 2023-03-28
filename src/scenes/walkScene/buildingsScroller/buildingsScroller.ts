@@ -5,9 +5,9 @@ export default class BuildingsScroller {
   buildings: Buildings[] = [];
 
   constructor(scene: Phaser.Scene, group: Phaser.GameObjects.Group | undefined, scrollSpeed: number) {
-    this.buildings.push(new Buildings(scene, { x: scene.cameras.main.width * -0.5, y: 48}, scrollSpeed));
-    this.buildings.push(new Buildings(scene, { x: scene.cameras.main.width * 0.5, y: 48}, scrollSpeed));
-    this.buildings.push(new Buildings(scene, { x: scene.cameras.main.width * 1.5, y: 48}, scrollSpeed));
+    this.buildings.push(new Buildings(scene, { x: scene.cameras.main.width * -0.5, y: scene.cameras.main.height * 0.5}, scrollSpeed));
+    this.buildings.push(new Buildings(scene, { x: scene.cameras.main.width * 0.5, y: scene.cameras.main.height * 0.5}, scrollSpeed));
+    this.buildings.push(new Buildings(scene, { x: scene.cameras.main.width * 1.5, y: scene.cameras.main.height * 0.5}, scrollSpeed));
   }
 
   update() {

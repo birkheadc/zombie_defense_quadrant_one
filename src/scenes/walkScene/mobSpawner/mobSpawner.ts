@@ -68,7 +68,6 @@ export default class MobSpawner {
 
   spawnDog() {
     const dog = new WalkDog(this.scene, this.getRandomSpawnLocation(), { top: this.spawnRange?.topLeft.y ?? 0, bottom: this.spawnRange?.bottomRight.y ?? this.scene.cameras.main.height}, this.mobGroup);
-    dog.flipX = true;
     this.mobs.dogs.push(dog);
   }
 

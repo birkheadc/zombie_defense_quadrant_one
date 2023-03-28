@@ -30,6 +30,8 @@ export default class ZombieSpawner {
   }
 
   spawnDog() {
-    new TowerDefenseDog(this.scene, this.getRandomSpawnLocation(), this.zombieGroup);
+    const dog = new TowerDefenseDog(this.scene, this.getRandomSpawnLocation(), this.zombieGroup);
+    dog.setFlipX(true);
+    dog.setScale(0.5);
   }
 }

@@ -3,10 +3,11 @@ import AngryManSprite from '../../../../assets/sprites/walkScene/angryMan/angry_
 import bullet from '../../../towerDefense/sprites/bullet/bullet';
 import { Bullet } from '../../../towerDefense/sprites/bullet/bullet';
 import { AngryMessage } from '../angryMessage/angryMessage';
+import { Fruit } from '../fruit/fruit';
 import { SadMan } from '../sadMan/sadMan';
 
 const SPRITE_ID = 'angry_man_sprite';
-const FRAME_SIZE = { frameWidth: 64, frameHeight: 64 };
+const FRAME_SIZE = { frameWidth: 24, frameHeight: 32 };
 
 const BULLET_RATE_RANGE = { MIN: 2000, MAX: 5000 };
 
@@ -30,7 +31,7 @@ export class AngryMan extends Physics.Arcade.Sprite {
     super(scene, spawnLocation.x, spawnLocation.y, SPRITE_ID);
     scene.add.existing(this);
     scene.physics.add.existing(this);
-    this.setScale(0.8);
+    this.setScale(1.9);
     group?.add(this);
     this.declareAnims();
     this.setNextBulletRandomTime();
@@ -41,7 +42,7 @@ export class AngryMan extends Physics.Arcade.Sprite {
   declareAnims() {
     this.anims.create({
       key: 'shout',
-      frames: this.anims.generateFrameNumbers(SPRITE_ID, { frames: [ 0, 1 ]}),
+      frames: this.anims.generateFrameNumbers(SPRITE_ID, { frames: [ 0, 1, 2, 3 ]}),
       frameRate: 2,
       repeat: -1
     })
@@ -67,7 +68,7 @@ export class AngryMan extends Physics.Arcade.Sprite {
     this.deltaBullet += delta;
     if (this.deltaBullet >= this.nextBulletTime) {
       const destination = this.player == null ? { x: 0, y: 0 } : { x: this.player.x, y: this.player.y };
-      new Bullet(this.scene, { x: this.x, y: this.y }, destination, this.group)
+      const fruit = new Fruit(this.scene, { x: this.x, y: this.y }, destination, this.group)
       this.deltaBullet -= this.nextBulletTime;
       this.setNextBulletRandomTime();
     }

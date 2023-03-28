@@ -13,7 +13,7 @@ interface IRange {
 }
 
 const SPRITE_ID = 'sad_man_sprite';
-const FRAME_SIZE = { frameWidth: 32, frameHeight: 64 };
+const FRAME_SIZE = { frameWidth: 16, frameHeight: 24 };
 
 function preload(scene: Phaser.Scene) {
   scene.load.spritesheet(SPRITE_ID, SadManSprite, FRAME_SIZE);
@@ -24,7 +24,7 @@ export class SadMan extends Physics.Arcade.Sprite {
     super(scene, spawnLocation.x, spawnLocation.y, SPRITE_ID);
     scene.add.existing(this);
     scene.physics.add.existing(this);
-    this.setScale(0.7);
+    this,this.setScale(1.2);
     this.setCollideWorldBounds(true);
     this.setInteractive({ cursor: 'none' });
     this.declareAnims();
@@ -34,8 +34,8 @@ export class SadMan extends Physics.Arcade.Sprite {
   declareAnims() {
     this.anims.create({
       key: 'walk',
-      frames: this.anims.generateFrameNumbers(SPRITE_ID, { frames: [ 0, 1 ] }),
-      frameRate: 2,
+      frames: this.anims.generateFrameNumbers(SPRITE_ID, { frames: [ 0, 1, 2, 3 ] }),
+      frameRate: 4,
       repeat: -1
     });
   }

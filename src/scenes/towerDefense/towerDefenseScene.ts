@@ -33,7 +33,7 @@ export default class TowerDefenseScene extends Phaser.Scene {
 
   isFiring: boolean = false;
   deltaFire: number = 0;
-  FIRE_RATE = 100;
+  FIRE_RATE = 200;
 
   constructor() {
     super("TowerDefenseScene");
@@ -102,10 +102,9 @@ export default class TowerDefenseScene extends Phaser.Scene {
   generateReticle() {
     this.reticle = new Reticle(this, { x: this.cameras.main.width / 2, y: this.cameras.main.height / 2});
     this.input.on('pointermove', (event: PointerEvent) => {
-      this.reticle?.moveTo({
-        x: event.x,
-        y: event.y
-      });
+      const location = { x: event.x, y: event.y };
+      this.reticle?.moveTo(location);
+      this.tower?.pointTowardsLocation(location);
     });
   }
 

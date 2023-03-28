@@ -3,7 +3,7 @@ import { Physics } from 'phaser';
 import BuildingsSprite from '../../../../assets/sprites/walkScene/buildings/buildings.png';
 
 const SPRITE_ID = 'buildings_sprite';
-const FRAME_SIZE = { frameWidth: 480, frameHeight: 96 };
+const FRAME_SIZE = { frameWidth: 480, frameHeight: 320 };
 
 function preload(scene: Phaser.Scene) {
   scene.load.spritesheet(SPRITE_ID, BuildingsSprite, FRAME_SIZE);
