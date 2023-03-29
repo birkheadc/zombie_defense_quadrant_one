@@ -4,7 +4,7 @@ import { TowerDefenseZombie } from '../zombie/towerDefenseZombie';
 
 const SPRITE_ID = 'bullet_sprite';
 const FRAME_SIZE = { frameWidth: 5, frameHeight: 5 };
-const BULLET_SPEED = 200;
+const BULLET_SPEED = 350;
 const BULLET_DAMAGE = 20;
 
 function preload(scene: Phaser.Scene) {

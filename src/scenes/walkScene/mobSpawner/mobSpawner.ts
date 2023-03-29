@@ -32,7 +32,8 @@ export default class MobSpawner {
     private scrollSpeed: number,
     private mobGroup: Phaser.GameObjects.Group | undefined,
     private isDogKiller: boolean,
-    private player: Physics.Arcade.Sprite | undefined
+    private player: Physics.Arcade.Sprite | undefined,
+    private playThrowFruitSound: Function
     ) {
     
   }
@@ -62,7 +63,7 @@ export default class MobSpawner {
   }
 
   spawnMan() {
-    const man = new AngryMan(this.scene, this.getRandomSpawnLocation(), this.scrollSpeed, this.mobGroup, this.isDogKiller, this.player);
+    const man = new AngryMan(this.scene, this.getRandomSpawnLocation(), this.scrollSpeed, this.mobGroup, this.isDogKiller, this.player, this.playThrowFruitSound);
     this.mobs.angryMans.push(man);
   }
 

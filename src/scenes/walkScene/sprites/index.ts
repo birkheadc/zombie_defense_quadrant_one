@@ -1,5 +1,4 @@
 import angryMan from "./angryMan/angryMan";
-import angryMessage from "./angryMessage/angryMessage";
 import buildings from "./buildings/buildings"
 import walkDog from "./dog/walkDog";
 import fruit from "./fruit/fruit";
@@ -10,7 +9,6 @@ function preload(scene: Phaser.Scene) {
   sadMan.preload(scene);
   angryMan.preload(scene);
   walkDog.preload(scene);
-  angryMessage.preload(scene);
   fruit.preload(scene);
 }
 

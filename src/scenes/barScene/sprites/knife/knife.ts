@@ -1,22 +1,22 @@
 import { Physics } from 'phaser';
-import CupSprite from '../../../../assets/sprites/barScene/cup/cup.png';
+import KnifeSprite from '../../../../assets/sprites/barScene/knife/knife.png';
 
-const SPIRTE_ID = 'cup_sprite';
-const FRAME_SIZE = { frameWidth: 16, frameHeight: 16 };
+const SPIRTE_ID = 'knife_sprite';
+const FRAME_SIZE = { frameWidth: 32, frameSize: 32 };
 const SPEED_RANGE = { MIN: 200, MAX: 250 };
 const FALL_SPEED = 400;
 
 function preload(scene: Phaser.Scene) {
-  scene.load.spritesheet(SPIRTE_ID, CupSprite, FRAME_SIZE);
+  scene.load.spritesheet(SPIRTE_ID, KnifeSprite, FRAME_SIZE);
 }
 
-export class Cup extends Physics.Arcade.Sprite {
-
-  constructor(scene: Phaser.Scene, spawnLocation: { x: number, y: number}, group: Phaser.GameObjects.Group | undefined) {
+export class Knife extends Physics.Arcade.Sprite {
+  constructor(scene: Phaser.Scene, spawnLocation: { x: number, y: number }, group: Phaser.GameObjects.Group | undefined) {
     super(scene, spawnLocation.x, spawnLocation.y, SPIRTE_ID);
     scene.add.existing(this);
     scene.physics.add.existing(this);
     group?.add(this);
+    this.setRotation(3.95);
     this.beginBehavior();
   }
 

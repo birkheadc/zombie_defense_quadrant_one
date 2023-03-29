@@ -8,11 +8,12 @@ export default class ZombieSpawner {
     private scene: Phaser.Scene,
     private spawnRange: IRange,
     private destinationRange: IRange,
-    private zombieGroup: Phaser.GameObjects.Group | null
+    private zombieGroup: Phaser.GameObjects.Group | null,
+    private zombieDieSound: Function
   ) { }
 
   spawnZombie() {
-    new TowerDefenseZombie(this.scene, this.getRandomSpawnLocation(), this.getRandomDestination(), this.zombieGroup)
+    new TowerDefenseZombie(this.scene, this.getRandomSpawnLocation(), this.getRandomDestination(), this.zombieGroup, this.zombieDieSound)
   }
 
   getRandomSpawnLocation(): { x: number, y: number } {

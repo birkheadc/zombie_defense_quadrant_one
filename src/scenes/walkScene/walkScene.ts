@@ -44,6 +44,8 @@ export default class WalkScene extends Phaser.Scene {
 
   MOB_SPAWN_RATE = 2800;
 
+  isDead: boolean = false;
+
   constructor() {
     super('WalkScene');
   }
@@ -58,6 +60,7 @@ export default class WalkScene extends Phaser.Scene {
   }
 
   create() {
+    this.isDead = false;
     this.progressPoints = 0;
     this.deltaProgressPoints = 0;
     sounds.stopAll(this);
@@ -114,7 +117,7 @@ export default class WalkScene extends Phaser.Scene {
         y: (this.PLAY_RANGE?.bottomRight.y ?? this.cameras.main.height) - 16
       }
     }
-    this.mobSpawner = new MobSpawner(this, spawnRange, SCROLL_SPEED, this.mobGroup, this.gameState?.isDogKiller ?? false, this.player);
+    this.mobSpawner = new MobSpawner(this, spawnRange, SCROLL_SPEED, this.mobGroup, this.gameState?.isDogKiller ?? false, this.player, () => sounds.playThrowFruit(this));
     this.mobSpawner.beginSpawning(this.MOB_SPAWN_RATE);
   }
 
@@ -143,6 +146,9 @@ export default class WalkScene extends Phaser.Scene {
   }
 
   lose() {
+    if (this.isDead === true) return;
+    this.isDead = true;
+    sounds.playDieSound(this);
     this.mobGroup?.setAlpha(0);
     this.playerGroup?.setAlpha(0);
     this.cameras.main.flash(500, 200, 0, 0, false, (_: any, progress: number) => {

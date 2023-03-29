@@ -58,7 +58,7 @@ export default class TowerDefenseScene extends Phaser.Scene {
         x: this.cameras.main.width * 0.7,
         y: this.cameras.main.height * 0.9
       }};
-    return new ZombieSpawner(this, spawnRange, destination, this.zombieGroup);
+    return new ZombieSpawner(this, spawnRange, destination, this.zombieGroup, () => sounds.playZombieDie(this));
   }
 
   init(data: { gameState: GameState}) {
@@ -226,6 +226,7 @@ export default class TowerDefenseScene extends Phaser.Scene {
     this.deltaFire += delta;
     if (this.deltaFire >= this.FIRE_RATE) {
       this.tower?.fireTowards({ x: this.reticle?.x ?? 0, y: this.reticle?.y ?? 0});
+      sounds.playGunshot(this);
       this.deltaFire -= this.FIRE_RATE;
     }
   }

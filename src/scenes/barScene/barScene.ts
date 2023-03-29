@@ -4,10 +4,12 @@ import CupSpawner from "./cupSpawner/cupSpawner";
 import ProgressBar from "./progressBar/progressBar";
 import sounds from './sounds';
 import sprites from "./sprites";
+import { BarBackground } from "./sprites/background/background";
 import { Bartender } from "./sprites/bartender/bartender";
 import { Cup } from "./sprites/cup/cup";
 import { Drinker } from "./sprites/drinker/drinker";
 import { Hand } from "./sprites/hand/hand";
+import { Knife } from "./sprites/knife/knife";
 
 export default class BarScene extends Phaser.Scene {
 
@@ -16,8 +18,8 @@ export default class BarScene extends Phaser.Scene {
   droppedCups: number = 0;
   drankCups: number = 0;
 
-  MAX_DROPPED_CUPS = 5;
-  MAX_DRANK_CUPS = 10;
+  MAX_DROPPED_CUPS = 3;
+  MAX_DRANK_CUPS = 20;
 
   hand: Hand | undefined = undefined;
   handGroup: Phaser.GameObjects.Group | undefined = undefined;
@@ -28,23 +30,23 @@ export default class BarScene extends Phaser.Scene {
   drinkerGroup: Phaser.GameObjects.Group | undefined = undefined;
 
   spawnCupDelta: number = 0;
-  CUP_SPAWN_RATE = 700;
+  CUP_SPAWN_RATE = 300;
 
   cupSpawner : CupSpawner | undefined = undefined;
   cupGroup: Phaser.GameObjects.Group | undefined = undefined;
+  knifeGroup: Phaser.GameObjects.Group | undefined = undefined;
 
   edgeOfTable: Physics.Arcade.Sprite | undefined = undefined;
   edgeOfTableGroup: Phaser.GameObjects.Group | undefined;
-
-  // droppedCupsBar: ProgressBar | undefined = undefined;
-  // drankCupsBar: ProgressBar | undefined = undefined;
   
   droppedCupsBar: ProgressBar | undefined = undefined;
   drankCupsBar: ProgressBar | undefined = undefined;
 
   deltaCameraWobble: number = 0;
-  CAMERA_WOBBLE_RATE = 200;
-  CAMERA_WOBBLE_BASE_STRENGTH = 5;
+  CAMERA_WOBBLE_RATE = 500;
+  CAMERA_WOBBLE_BASE_STRENGTH = 1;
+
+  isDead: boolean = false;
 
   constructor() {
     super('BarScene');
@@ -60,12 +62,14 @@ export default class BarScene extends Phaser.Scene {
   }
 
   create() {
+    this.isDead = false;
     this.spawnCupDelta = 0;
     this.droppedCups = 0;
     this.drankCups = 0;
     this.deltaCameraWobble = 0;
 
     this.cupGroup = this.add.group();
+    this.knifeGroup = this.add.group();
     this.edgeOfTableGroup = this.add.group();
     this.handGroup = this.add.group();
     this.drinkerGroup = this.add.group();
@@ -81,12 +85,15 @@ export default class BarScene extends Phaser.Scene {
     this.generateEdgeOfTable();
 
     this.physics.add.overlap(this.handGroup, this.cupGroup, this.handleHandOverCup);
+    this.physics.add.overlap(this.handGroup, this.knifeGroup, this.handleHandOverKnife);
     this.physics.add.overlap(this.cupGroup, this.edgeOfTableGroup, this.handleCupOffEdgeOfTable);
+    this.physics.add.overlap(this.knifeGroup, this.edgeOfTableGroup, this.handleCupOffEdgeOfTable);
     this.physics.add.overlap(this.handGroup, this.drinkerGroup, this.handleHandOverDrinker);
   }
 
   generateBackground() {
     this.cameras.main.setBackgroundColor('rgba(0, 100, 50, 1.0)');
+    new BarBackground(this, { x: this.cameras.main.width * 0.5, y: this.cameras.main.height * 0.5 });
   }
 
   generateHand() {
@@ -101,7 +108,7 @@ export default class BarScene extends Phaser.Scene {
   }
 
   generateBartender() {
-    this.bartender = new Bartender(this, { x: this.cameras.main.width * 0.9, y: this.cameras.main.height * 0.1 });
+    this.bartender = new Bartender(this, { x: this.cameras.main.width * 0.5, y: this.cameras.main.height * 0.285 });
   }
   
   generateDrinker() {
@@ -117,26 +124,26 @@ export default class BarScene extends Phaser.Scene {
   generateCupSpawner() {
     let spawnRange = {
       topLeft: {
-        x: this.cameras.main.width * 0.1,
-        y: this.cameras.main.height * 0.3
+        x: -20,
+        y: this.cameras.main.height * 0.35
       }, 
       bottomRight: {
-        x: this.cameras.main.width * 0.1,
+        x: -20,
         y: this.cameras.main.height * 0.7
       }};
-    this.cupSpawner = new CupSpawner(this, spawnRange, this.cupGroup, this.handleCupBreak);
+    this.cupSpawner = new CupSpawner(this, spawnRange, this.cupGroup, this.knifeGroup, this.handleCupBreak);
   }
 
   generateEdgeOfTable() {
-    this.edgeOfTable = new Physics.Arcade.Sprite(this, this.cameras.main.width * 0.5, this.cameras.main.height * 0.5, '');
-    this.edgeOfTable.setAlpha(0);
+    this.edgeOfTable = new Physics.Arcade.Sprite(this, this.cameras.main.width * 0.7, this.cameras.main.height * 0.5, '');
+  this.edgeOfTable.setAlpha(0);
     this.edgeOfTable.setScale(1, 100);
     this.edgeOfTableGroup?.add(this.edgeOfTable);
     this.physics.add.existing(this.edgeOfTable);
   }
 
   handleCupOffEdgeOfTable = (object1: Phaser.GameObjects.GameObject, object2: Phaser.GameObjects.GameObject) => {
-    if (object1 instanceof Cup) {
+    if (object1 instanceof Cup || object1 instanceof Knife) {
       object1.fall();
     }
   }
@@ -146,7 +153,16 @@ export default class BarScene extends Phaser.Scene {
       if (object1.isHoldingCup === false) {
         object2.destroy();
         object1.setHoldingCup(true);
+        sounds.playPickup(this);
       }
+    }
+  }
+
+  handleHandOverKnife = (object1: Phaser.GameObjects.GameObject, object2: Phaser.GameObjects.GameObject) => {
+    if (this.isDead === true) return;
+    if (object2 instanceof Knife) {
+      sounds.playOw(this);
+      this.lose();
     }
   }
 
@@ -154,6 +170,7 @@ export default class BarScene extends Phaser.Scene {
     this.bartender?.getAngry();
     this.droppedCups += 1;
     this.droppedCupsBar?.add(1);
+    sounds.playBreak(this);
     if (this.droppedCups >= this.MAX_DROPPED_CUPS) {
       this.lose();
     }
@@ -164,6 +181,7 @@ export default class BarScene extends Phaser.Scene {
       if (this.hand?.isHoldingCup === true) {
         this.hand.setHoldingCup(false);
         this.handleDrink();
+        sounds.playDrink(this);
       }
     }
   }
@@ -171,13 +189,16 @@ export default class BarScene extends Phaser.Scene {
   handleDrink = () => {
     this.drankCups += 1;
     this.drankCupsBar?.add(1);
+    this.drinker?.drink();
     if (this.drankCups >= this.MAX_DRANK_CUPS) {
       this.win();
     }
   }
 
   lose() {
+    this.isDead = true;
     this.cupGroup?.setAlpha(0);
+    this.knifeGroup?.setAlpha(0);
     this.cameras.main.flash(500, 200, 0, 0, false, (_: any, progress: number) => {
       if (progress >= 0.8) {
         this.reset();

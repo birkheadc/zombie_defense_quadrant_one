@@ -12,14 +12,15 @@ export class Bartender extends Physics.Arcade.Sprite {
   constructor(scene: Phaser.Scene, spawnLocation: { x: number, y: number }) {
     super(scene, spawnLocation.x, spawnLocation.y, SPIRTE_ID);
     scene.add.existing(this);
+    this.setScale(1.5);
     this.declareAnims();
   }
 
   declareAnims() {
     this.anims.create({
       key: 'be_angry',
-      frames: this.anims.generateFrameNumbers(SPIRTE_ID, { frames: [1, 2, 1, 2, 1, 2, 1, 0]}),
-      frameRate: 2,
+      frames: this.anims.generateFrameNumbers(SPIRTE_ID, { frames: [1, 2, 1, 2, 1, 2, 1, 2, 1, 0]}),
+      frameRate: 6,
       repeat: 0
     });
   }

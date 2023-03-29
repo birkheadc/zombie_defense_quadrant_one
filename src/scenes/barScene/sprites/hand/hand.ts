@@ -1,11 +1,15 @@
 import { Physics } from 'phaser';
 import HandSprite from '../../../../assets/sprites/barScene/hand/hand.png';
+import CupSprite from '../../../../assets/sprites/barScene/cup/cup.png';
 
 const SPRITE_ID = 'hand_sprite';
-const FRAME_SIZE = { frameWidth: 16, frameHeight: 16 };
+const SPRITE_ID_CUP = 'hand_cup_sprite';
+const FRAME_SIZE = { frameWidth: 32, frameHeight: 32 };
+const FRAME_SIZE_CUP = { frameWidth: 15, frameHeight: 18 };
 
 function preload(scene: Phaser.Scene) {
   scene.load.spritesheet(SPRITE_ID, HandSprite, FRAME_SIZE);
+  scene.load.spritesheet(SPRITE_ID_CUP, CupSprite, FRAME_SIZE_CUP);
 }
 
 export class Hand extends Physics.Arcade.Sprite {
@@ -16,7 +20,6 @@ export class Hand extends Physics.Arcade.Sprite {
     super(scene, spawnLocation.x, spawnLocation.y, SPRITE_ID);
     scene.add.existing(this);
     scene.physics.add.existing(this);
-    this.setScale(2);
     this.setInteractive({ cursor: 'none' });
     this.declareAnims();
     this.updateAnimation();
@@ -26,13 +29,17 @@ export class Hand extends Physics.Arcade.Sprite {
   declareAnims() {
     this.anims.create({
       key: 'holding_cup',
-      frames: this.anims.generateFrameNumbers(SPRITE_ID, { frames: [ 1 ]}),
+      frames: [
+        { key: SPRITE_ID_CUP }
+      ],
       frameRate: 1,
       repeat: -1
     });
     this.anims.create({
       key: 'empty',
-      frames: this.anims.generateFrameNumbers(SPRITE_ID, { frames: [ 0 ]}),
+      frames: [
+        { key: SPRITE_ID }
+      ],
       frameRate: 1,
       repeat: -1
     });

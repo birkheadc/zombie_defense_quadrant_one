@@ -2,7 +2,7 @@ import { Physics } from 'phaser';
 import TowerDefenseZombieSprite from '../../../../assets/sprites/towerDefenseScene/mobs/towerDefenseZombie/tower_defense_zombie.png'
 
 const SPRITE_ID = 'zombie_sprite';
-const FRAME_SIZE: Phaser.Types.Loader.FileTypes.ImageFrameConfig = { frameWidth: 16, frameHeight: 32 };
+const FRAME_SIZE: Phaser.Types.Loader.FileTypes.ImageFrameConfig = { frameWidth: 16, frameHeight: 24 };
 const SPEED_RANGE = { MIN: 1, MAX: 3 };
 
 function preload(scene: Phaser.Scene) {
@@ -13,7 +13,7 @@ export class TowerDefenseZombie extends Physics.Arcade.Sprite {
 
   health: number = 100;
 
-  constructor(scene: Phaser.Scene, private spawnLocation: { x: number, y: number }, private destination: { x: number, y: number }, group: Phaser.GameObjects.Group | null ) {
+  constructor(scene: Phaser.Scene, private spawnLocation: { x: number, y: number }, private destination: { x: number, y: number }, group: Phaser.GameObjects.Group | null, private dieSound: Function ) {
     super(scene, spawnLocation.x, spawnLocation.y, SPRITE_ID);
     this.scene.add.existing(this);
     this.scene.physics.add.existing(this);
@@ -48,6 +48,7 @@ export class TowerDefenseZombie extends Physics.Arcade.Sprite {
   }
 
   die() {
+    this.dieSound();
     this.destroy();
   }
 }
