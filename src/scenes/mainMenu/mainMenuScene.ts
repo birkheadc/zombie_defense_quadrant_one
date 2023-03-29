@@ -38,6 +38,6 @@ export default class MainMenuScene extends Phaser.Scene {
       didSaveDog: false,
       isDogKiller: false
     };
-    this.scene.start('BarScene', { gameState: startState });
+    this.scene.start('TowerDefenseScene', { gameState: startState });
   }
 }
