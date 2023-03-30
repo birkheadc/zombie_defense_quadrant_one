@@ -1,4 +1,3 @@
-import sprites from "./sprites";
 import { SoundButton } from "./sprites/soundButton/soundButton";
 
 export default class OverlayScene extends Phaser.Scene {
@@ -11,7 +10,7 @@ export default class OverlayScene extends Phaser.Scene {
   }
 
   preload() {
-    sprites.preload(this);
+    
   }
 
   create() {

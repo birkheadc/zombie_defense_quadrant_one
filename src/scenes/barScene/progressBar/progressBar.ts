@@ -17,6 +17,11 @@ export default class ProgressBar {
     this.updateBar();
   }
 
+  set(num: number) {
+    this.current = num;
+    this.updateBar();
+  }
+
   updateBar() {
     const ratio = this.current / this.max;
     this.bar?.clear();

@@ -25,7 +25,7 @@ export default class CutsceneScene extends Phaser.Scene {
   }
 
   preload() {
-    sprites.preload(this);
+    
   }
 
   create() {

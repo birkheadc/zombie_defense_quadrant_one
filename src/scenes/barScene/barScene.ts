@@ -57,8 +57,7 @@ export default class BarScene extends Phaser.Scene {
   }
 
   preload() {
-    sounds.preload(this);
-    sprites.preload(this);
+    
   }
 
   create() {

@@ -55,8 +55,7 @@ export default class WalkScene extends Phaser.Scene {
   }
 
   preload() {
-    sprites.preload(this);
-    sounds.preload(this);
+    
   }
 
   create() {

@@ -8,7 +8,7 @@ export default class MainMenuScene extends Phaser.Scene {
   }
 
   preload() {
-    sprites.preload(this);
+    
   }
 
   create() {
