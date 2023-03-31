@@ -34,7 +34,9 @@ export default class TowerDefenseScene extends Phaser.Scene {
 
   isFiring: boolean = false;
   deltaFire: number = 0;
-  FIRE_RATE = 200;
+  FIRE_RATE = 150;
+
+  pointerLocation: { x: number, y: number } = { x: 0, y: 0 };
 
   constructor() {
     super("TowerDefenseScene");
@@ -110,12 +112,14 @@ export default class TowerDefenseScene extends Phaser.Scene {
   }
 
   startFiring = (event: PointerEvent) => {
+    this.pointerLocation = { x: event.x, y: event.y };
+    this.reticle?.moveTo(this.pointerLocation);
     this.isFiring = true;
   }
 
   stopFiring = (event: PointerEvent) => {
     this.isFiring = false;
-    this.deltaFire = this.FIRE_RATE;
+    // this.deltaFire = this.FIRE_RATE;
   }
 
   handleBulletCollide = (object1: Phaser.GameObjects.GameObject, object2: Phaser.GameObjects.GameObject) => {
@@ -222,7 +226,7 @@ export default class TowerDefenseScene extends Phaser.Scene {
     this.scene.start('TowerDefenseScene', { gameState: this.gameState });
   }
 
-  fire(delta: number) {
+  fire = (delta: number) => {
     if (this.isFiring === false) return;
     this.deltaFire += delta;
     if (this.deltaFire >= this.FIRE_RATE) {

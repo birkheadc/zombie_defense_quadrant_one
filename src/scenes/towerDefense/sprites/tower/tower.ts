@@ -30,14 +30,16 @@ export class Tower extends Physics.Arcade.Sprite {
     })
   }
 
-  pointTowardsLocation(location: { x: number, y: number }) {
+  pointTowardsLocation = (location: { x: number, y: number }) => {
     const angle = Phaser.Math.Angle.BetweenPoints(this, location);
     const diff = ((Phaser.Math.RAD_TO_DEG * angle + 90) - this.angle) * Phaser.Math.DEG_TO_RAD;
+    const before = {...this.bulletSpawnLocation};
     this.bulletSpawnLocation = Phaser.Math.RotateAroundDistance(this.bulletSpawnLocation, this.spawnLocation.x, this.spawnLocation.y, diff, 48);
     this.angle = Phaser.Math.RAD_TO_DEG * angle + 90;
   }
 
-  fireTowards(location: { x: number, y: number }) {
+  fireTowards = (location: { x: number, y: number }) => {
+    this.pointTowardsLocation(location);
     this.anims.play('fire', false);
     new Bullet(this.scene, this.bulletSpawnLocation, location, this.bulletGroup);
   }
