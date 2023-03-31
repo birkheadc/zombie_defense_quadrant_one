@@ -18,7 +18,7 @@ export default class BarScene extends Phaser.Scene {
   droppedCups: number = 0;
   drankCups: number = 0;
 
-  MAX_DROPPED_CUPS = 3;
+  MAX_DROPPED_CUPS = 5;
   MAX_DRANK_CUPS = 15;
 
   hand: Hand | undefined = undefined;
