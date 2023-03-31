@@ -19,7 +19,7 @@ export default class BarScene extends Phaser.Scene {
   drankCups: number = 0;
 
   MAX_DROPPED_CUPS = 3;
-  MAX_DRANK_CUPS = 20;
+  MAX_DRANK_CUPS = 15;
 
   hand: Hand | undefined = undefined;
   handGroup: Phaser.GameObjects.Group | undefined = undefined;
@@ -47,6 +47,9 @@ export default class BarScene extends Phaser.Scene {
   CAMERA_WOBBLE_BASE_STRENGTH = 1;
 
   isDead: boolean = false;
+
+  // Was too late to come up with a good way to toggle this, and it can make some players sick, so turned it off for now
+  IS_WOBBLE_ENABLED: boolean = false;
 
   constructor() {
     super('BarScene');
@@ -224,6 +227,7 @@ export default class BarScene extends Phaser.Scene {
   }
 
   wobbleCamera(delta: number) {
+    if (this.IS_WOBBLE_ENABLED === false) return;
     this.deltaCameraWobble += delta;
     if (this.deltaCameraWobble >= this.CAMERA_WOBBLE_RATE) {
       this.deltaCameraWobble -= this.CAMERA_WOBBLE_RATE;
