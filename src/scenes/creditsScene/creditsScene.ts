@@ -34,15 +34,17 @@ export default class CreditsScene extends Phaser.Scene {
 
   spawnedLines: Phaser.GameObjects.Text[] = [];
 
-  LINE_SPAWN_RATE = 500;
+  LINE_SPAWN_RATE = 400;
   deltaSpawn = 0;
 
-  LINE_SPEED = 0.2;
+  LINE_SPEED = 0.05
 
   isThankYouSpawned: boolean = false;
   thankYou: Phaser.GameObjects.Text | undefined = undefined;
 
   isThankYouInCenter: boolean = false;
+
+  isScrolling: boolean = false;
 
   constructor() {
     super('CreditsScene');
@@ -53,7 +55,7 @@ export default class CreditsScene extends Phaser.Scene {
   }
 
   preload() {
-
+    
   }
 
   create() {
@@ -61,7 +63,7 @@ export default class CreditsScene extends Phaser.Scene {
   }
 
   update(_: any, delta: number) {
-    this.moveLines();
+    this.moveLines(delta);
     this.deltaSpawn += delta;
     if (this.deltaSpawn >= this.LINE_SPAWN_RATE) {
       this.generateNextLine();
@@ -69,13 +71,13 @@ export default class CreditsScene extends Phaser.Scene {
     }
   }
 
-  moveLines() {
+  moveLines(delta: number) {
     for (let i = 0; i < this.spawnedLines.length; i++) {
-      this.spawnedLines[i].setPosition(this.spawnedLines[i].x, this.spawnedLines[i].y - this.LINE_SPEED);
+      this.spawnedLines[i].setPosition(this.spawnedLines[i].x, this.spawnedLines[i].y - this.LINE_SPEED * delta);
     }
     if (this.thankYou != null) {
       if (this.isThankYouInCenter === false) {
-        this.thankYou.setPosition(this.thankYou.x, this.thankYou.y - this.LINE_SPEED);
+        this.thankYou.setPosition(this.thankYou.x, this.thankYou.y - this.LINE_SPEED * delta);
         if (this.thankYou.y <= this.cameras.main.height * 0.5) {
           this.isThankYouInCenter = true;
         }
