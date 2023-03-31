@@ -1,5 +1,7 @@
 import { spawn } from "child_process";
+import { Physics } from "phaser";
 import GameState from "../../gameState/gameState";
+import sounds from "./sounds";
 import sprites from "./sprites";
 import { EndCutscene } from "./sprites/endCutscene/endCutscene";
 import { SaveDogCutscene } from "./sprites/saveDogCutscene/saveDogCutscene";
@@ -41,8 +43,10 @@ export default class CutsceneScene extends Phaser.Scene {
 
     if (this.cutsceneId === 'shoot_dog') {
       new ShootDogCutscene(this, spawnLocation);
+      sounds.playHowl(this);
     } else if (this.cutsceneId === 'save_dog') {
       new SaveDogCutscene(this, spawnLocation);
+      sounds.playShout(this);
     } else {
       new EndCutscene(this, spawnLocation);
     }
@@ -57,7 +61,11 @@ export default class CutsceneScene extends Phaser.Scene {
   }
 
   goNext() {
-    if (this.cutsceneId === 'end') return;
-    this.scene.start(this.nextScene, { gameState: this.gameState });
+    if (this.cutsceneId === 'credits') return;
+    if (this.cutsceneId === 'end') {
+      this.scene.start('CutsceneScene', { cutsceneId: 'credits' });
+    } else {
+      this.scene.start(this.nextScene, { gameState: this.gameState });
+    }
   }
 }

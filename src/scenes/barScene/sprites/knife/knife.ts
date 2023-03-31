@@ -2,7 +2,7 @@ import { Physics } from 'phaser';
 import KnifeSprite from '../../../../assets/sprites/barScene/knife/knife.png';
 
 const SPIRTE_ID = 'knife_sprite';
-const FRAME_SIZE = { frameWidth: 32, frameSize: 32 };
+const FRAME_SIZE = { frameWidth: 37, frameSize: 17 };
 const SPEED_RANGE = { MIN: 200, MAX: 250 };
 const FALL_SPEED = 400;
 
@@ -16,7 +16,6 @@ export class Knife extends Physics.Arcade.Sprite {
     scene.add.existing(this);
     scene.physics.add.existing(this);
     group?.add(this);
-    this.setRotation(3.95);
     this.beginBehavior();
   }
 

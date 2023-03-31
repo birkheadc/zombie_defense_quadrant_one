@@ -34,7 +34,7 @@ export class AngryMan extends Physics.Arcade.Sprite {
     this.setNextBulletRandomTime();
     this.beginBehavior();
 
-    const text = this.isDogKiller ? 'Dog Killer' : 'Backstabber';
+    const text = this.isDogKiller ? 'Dog Killer' : 'Zombie Lover';
     this.text = this.scene.add.text(this.x + 16, this.y - 16, text);
     this.text.setShadow(2, 2, '#000', 1);
   }

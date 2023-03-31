@@ -4,6 +4,7 @@ import bullet from "./bullet/bullet";
 import towerDefenseDog from "./dog/towerDefenseDog";
 import wall from "./wall/wall";
 import reticle from "./reticle/reticle";
+import towerDefenseSceneBackground from "./background/towerDefenseSceneBackground";
 
 function preload(scene: Phaser.Scene) {
   towerDefenseZombie.preload(scene);
@@ -12,6 +13,7 @@ function preload(scene: Phaser.Scene) {
   towerDefenseDog.preload(scene);
   wall.preload(scene);
   reticle.preload(scene);
+  towerDefenseSceneBackground.preload(scene);
 }
 
 export default {

@@ -1,6 +1,7 @@
 import GameState from "../../gameState/gameState";
 import sounds from "./sounds";
 import sprites from "./sprites";
+import { TowerDefenseSceneBackground } from "./sprites/background/towerDefenseSceneBackground";
 import { Bullet } from "./sprites/bullet/bullet";
 import { TowerDefenseDog } from "./sprites/dog/towerDefenseDog";
 import { Reticle } from "./sprites/reticle/reticle";
@@ -73,6 +74,7 @@ export default class TowerDefenseScene extends Phaser.Scene {
     this.spawnDogDelta = 0;
     this.spawnZombieDelta = 0;
     this.dogSpawned = false;
+    this.isFiring = false;
     
     this.deltaFire = this.FIRE_RATE;
 
@@ -169,7 +171,7 @@ export default class TowerDefenseScene extends Phaser.Scene {
   spawnWall() {
     new Wall(
       this, {
-      x: this.cameras.main.width * 0.5,
+      x: this.cameras.main.width * 0.55,
       y: this.cameras.main.height * 0.5,
       },
       this.wallGroup
@@ -177,7 +179,7 @@ export default class TowerDefenseScene extends Phaser.Scene {
   }
 
   generateBackground() {
-    this.cameras.main.setBackgroundColor('rgba(100, 50, 0, 1.0)');
+    new TowerDefenseSceneBackground(this, { x: this.cameras.main.width * 0.5, y: this.cameras.main.height * 0.5});
   }
 
   shootDog = () => {

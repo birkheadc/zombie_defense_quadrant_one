@@ -5,6 +5,7 @@ import CutsceneScene from "./cutscene/cutsceneScene";
 import BarScene from "./barScene/barScene";
 import WalkScene from "./walkScene/walkScene";
 import PreloadScene from "./preloadScene/preloadScene";
+import CreditsScene from "./creditsScene/creditsScene";
 
 export default [
   PreloadScene,
@@ -13,5 +14,6 @@ export default [
   TowerDefenseScene,
   CutsceneScene,
   BarScene,
-  WalkScene
+  WalkScene,
+  CreditsScene
 ]

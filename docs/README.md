@@ -10,6 +10,7 @@
   - [Snake's Authentic Gun Sounds](https://f8studios.itch.io/snakes-authentic-gun-sounds)
   - [200 Free SFX](https://kronbits.itch.io/freesfx)
   - [FilmCow Royalty Free Sound Effects Library](https://filmcow.itch.io/filmcow-sfx)
+  - [Super Dialogue Audio Pack](https://dillonbecker.itch.io/sdap)
 
 ### Sprites
   - [Modern City Top-Down Tileset [16x16]](https://shatteredreality.itch.io/modern-city)

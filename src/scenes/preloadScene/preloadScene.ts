@@ -21,7 +21,6 @@ export default class PreloadScene extends Phaser.Scene {
     );
 
     this.load.on('progress', (event: number) => {
-      console.log(event);
       progressBar.set(event)
     });
 

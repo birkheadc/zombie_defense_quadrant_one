@@ -12,6 +12,7 @@ export class EndCutscene extends Physics.Arcade.Sprite {
   constructor(scene: Phaser.Scene, spawnLocation: { x: number, y: number }) {
     super(scene, spawnLocation.x, spawnLocation.y, SPRITE_ID);
     this.scene.add.existing(this);
+    this.scene.physics.add.existing(this);
   }
 }
 
