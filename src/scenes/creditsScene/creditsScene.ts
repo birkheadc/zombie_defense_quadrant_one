@@ -70,7 +70,6 @@ export default class CreditsScene extends Phaser.Scene {
   }
 
   moveLines() {
-    console.log('move');
     for (let i = 0; i < this.spawnedLines.length; i++) {
       this.spawnedLines[i].setPosition(this.spawnedLines[i].x, this.spawnedLines[i].y - this.LINE_SPEED);
     }
@@ -98,7 +97,7 @@ export default class CreditsScene extends Phaser.Scene {
 
   generateThankYou() {
     if (this.isThankYouSpawned === true) return;
-    const location = { x: this.cameras.main.width * 0.5, y: this.cameras.main.height - 50 };
+    const location = { x: this.cameras.main.width * 0.5, y: this.cameras.main.height + 50 };
     this.thankYou = this.add.text(location.x, location.y, 'Thank you for playing');
     this.thankYou.setPosition(this.thankYou.x - this.thankYou.width * 0.5, this.thankYou.y - this.thankYou.height * 0.5);
     this.isThankYouSpawned = true;

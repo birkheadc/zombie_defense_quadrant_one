@@ -61,9 +61,8 @@ export default class CutsceneScene extends Phaser.Scene {
   }
 
   goNext() {
-    if (this.cutsceneId === 'credits') return;
     if (this.cutsceneId === 'end') {
-      this.scene.start('CutsceneScene', { cutsceneId: 'credits' });
+      this.scene.start('CreditsScene');
     } else {
       this.scene.start(this.nextScene, { gameState: this.gameState });
     }
