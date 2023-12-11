@@ -18,11 +18,11 @@
     "longDescriptions": [
       {
         "language": "en",
-        "content": "Created with Phaser 3 game engine in TypeScript. Tiled was used to create the stages, assets were borrowed from open sources or created by myself.\nUploaded to itch.io. The entire game can be played mobile or pc, and runs in your browser, so feel free to try it on any device you like."
+        "content": "Created with Phaser 3 game engine in TypeScript. Tiled was used to create the stages, assets were borrowed from open sources or created by myself.\n\nUploaded to itch.io. The entire game can be played mobile or pc, and runs in your browser, so feel free to try it on any device you like."
       },
       {
         "language": "jp",
-        "content": "Phaser 3というHTML/TypeScriptフレームワークでつくられた。ステージ作りはTiledで。\nitch.ioにアップロードされている。ゲーム全体はどんなスマートフォンやパソコンでも遊べるし、ブラウザー内で起動するので、お好みの機器でお楽しみいただける。"
+        "content": "Phaser 3というHTML/TypeScriptフレームワークでつくられた。ステージ作りはTiledで。\n\nitch.ioにアップロードされている。ゲーム全体はどんなスマートフォンやパソコンでも遊べるし、ブラウザー内で起動するので、お好みの機器でお楽しみいただける。"
       }
     ],
     "bulletPoints": [
