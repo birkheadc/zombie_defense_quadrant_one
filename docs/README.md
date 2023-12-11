@@ -28,3 +28,9 @@
   - [Free Pixel Food!](https://henrysoftware.itch.io/pixel-food)
   - [3000+ Free Icons](https://wishforge.itch.io/3000-free-icons)
   - [Shikashi's Fantasy Icons Pack](https://cheekyinkling.itch.io/shikashis-fantasy-icons-pack)
+
+  ## Repo-Parser
+This repository is parse-able by my custom repo-parser. The contents of the `repo-parser-target` directory are meant to be consumed by an API using this package.
+### GithubRepoParser
+- source code: https://github.com/birkheadc/github-repo-parser
+- npm package: https://www.npmjs.com/package/@birkheadc/github-repo-parser

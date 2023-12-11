@@ -1,0 +1,36 @@
+{
+  "id": "39d68e08-1aed-492f-b17b-bb5744d71a5a",
+  "title": "Zombie Defense Force Delta 1",
+  "site": "https://birkheadc.itch.io/zombie-defense-force-delta-one",
+  "source": "https://github.com/birkheadc/zombie_defense_quadrant_one",
+  "favoriteLevel": "90",
+  "descriptions": {
+    "shortDescriptions": [
+      {
+        "language": "en",
+        "content": "My second contribution to a game jam. Created for April Fools' Day Jam 2023."
+      },
+      {
+        "language": "jp",
+        "content": "itch.ioで行われた2023年April Fools' Day Jamにエントリーしたゲーム。"
+      }
+    ],
+    "longDescriptions": [
+      {
+        "language": "en",
+        "content": "Created with Phaser 3 game engine in TypeScript. Tiled was used to create the stages, assets were borrowed from open sources or created by myself.\nUploaded to itch.io. The entire game can be played mobile or pc, and runs in your browser, so feel free to try it on any device you like."
+      },
+      {
+        "language": "jp",
+        "content": "Phaser 3というHTML/TypeScriptフレームワークでつくられた。ステージ作りはTiledで。\nitch.ioにアップロードされている。ゲーム全体はどんなスマートフォンやパソコンでも遊べるし、ブラウザー内で起動するので、お好みの機器でお楽しみいただける。"
+      }
+    ],
+    "bulletPoints": [
+
+    ]
+  },
+  "technologies": [
+    "Phaser 3",
+    "TypeScript"
+  ]
+}
